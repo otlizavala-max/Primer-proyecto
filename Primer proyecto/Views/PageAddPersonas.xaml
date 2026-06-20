@@ -3,14 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Primer_proyecto.Views.PageAddPersonas"
              Title="PageAddPersonas">
-    <VerticalStackLayout Padding="20">
-        <Entry x:Name="Nombre" Placeholder="Nombre" />
-        <Entry x:Name="Apellido" Placeholder="Apellido " />
-        <DatePicker x:Name="FechaNac" />
-        <Entry x:Name="Correo" Placeholder="Correo" />
-        <Entry x:Name="Telefono" Placeholder="Teléfono"  />
 
-        <Button x:Name="btnguardar" Clicked="btnguardar_Clicked" />
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+            <Entry x:Name="Nombre" Placeholder="Nombre" />
+            <Entry x:Name="Apellido" Placeholder="Apellido" />
+            <DatePicker x:Name="FechaNac" />
+            <Entry x:Name="Correo" Placeholder="Correo" />
+            <Entry x:Name="Telefono" Placeholder="Teléfono" />
 
-    </VerticalStackLayout>
+            <Button Text="Tomar foto" Clicked="TomarFoto_Clicked" />
+
+            <Image Source="{Binding FotoBase64, Converter={StaticResource Base64ToImageSourceConverter}}"
+                   HeightRequest="160"
+                   Aspect="AspectFill" />
+
+            <Button x:Name="btnguardar" Clicked="btnguardar_Clicked" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

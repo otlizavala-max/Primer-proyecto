@@ -3,26 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Primer_proyecto.Views.PageListPersonas"
              Title="Lista de Personas">
+
     <StackLayout>
         <ListView x:Name="listaPersonas" ItemsSource="{Binding}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10">
-                            <StackLayout HorizontalOptions="StartAndExpand">
-                                <Label Text="{Binding NombreCompleto}" FontSize="16" FontAttributes="Bold" />
+                        <Grid Padding="10"
+                              ColumnSpacing="10"
+                              ColumnDefinitions="56,*,Auto">
+
+                            <Image Grid.Column="0"
+                                   Source="{Binding FotoBase64, Converter={StaticResource Base64ToImageSourceConverter}}"
+                                   WidthRequest="48"
+                                   HeightRequest="48"
+                                   Aspect="AspectFill" />
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="{Binding NombreCompleto}"
+                                       FontSize="16"
+                                       FontAttributes="Bold" />
                                 <Label Text="{Binding Correo}" FontSize="14" />
                                 <Label Text="{Binding Telefono}" FontSize="14" />
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="End">
-                                <Button Text="Editar" CommandParameter="{Binding .}" Clicked="OnEditarClicked" />
-                                <Button Text="Eliminar" CommandParameter="{Binding .}" Clicked="OnEliminarClicked" />
-                            </StackLayout>
-                        </StackLayout>
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout Grid.Column="2"
+                                                   Spacing="6"
+                                                   VerticalOptions="Center">
+                                <Button Text="Editar"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnEditarClicked" />
+                                <Button Text="Eliminar"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnEliminarClicked" />
+                            </HorizontalStackLayout>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="Agregar Persona" Clicked="OnAgregarClicked" Margin="10" />
+
+        <Button Text="Agregar Persona"
+                Clicked="OnAgregarClicked"
+                Margin="10" />
     </StackLayout>
 </ContentPage>

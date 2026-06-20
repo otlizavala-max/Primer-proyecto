@@ -1,15 +1,33 @@
 using Primer_proyecto.Controllers;
 using Primer_proyecto.Models;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Media;
 
 namespace Primer_proyecto.Views;
 
 public partial class PageAddPersonas : ContentPage
 {
     private Personas _personaEditar;
+    private string _fotoBase64 = string.Empty;
+
+    public string FotoBase64
+    {
+        get => _fotoBase64;
+        set
+        {
+            if (_fotoBase64 == value)
+                return;
+
+            _fotoBase64 = value;
+            OnPropertyChanged();
+        }
+    }
 
     public PageAddPersonas(Personas persona = null)
     {
         InitializeComponent();
+        BindingContext = this;
+
         if (persona != null)
         {
             _personaEditar = persona;
@@ -18,12 +36,45 @@ public partial class PageAddPersonas : ContentPage
             FechaNac.Date = persona.FechaNac;
             Correo.Text = persona.Correo;
             Telefono.Text = persona.Telefono;
+            FotoBase64 = persona.FotoBase64 ?? string.Empty;
             btnguardar.Text = "Actualizar";
         }
         else
         {
             btnguardar.Text = "Guardar";
         }
+    }
+
+    private async void TomarFoto_Clicked(object sender, EventArgs e)
+    {
+        var status = await Permissions.RequestAsync<Permissions.Camera>();
+
+        if (status != PermissionStatus.Granted)
+        {
+            await DisplayAlert("Permiso requerido", "Se necesita acceso a la cámara", "OK");
+            return;
+        }
+
+        if (!MediaPicker.Default.IsCaptureSupported)
+        {
+            await DisplayAlert("Error", "Este dispositivo no soporta captura de cámara.", "OK");
+            return;
+        }
+        //tomamos foto
+        var foto = await MediaPicker.Default.CapturePhotoAsync();
+        if (foto == null)
+            return;
+
+
+        //Leemos foto y transformamos a bytes
+        using var stream = await foto.OpenReadAsync();
+        //creamos memoria
+        using var memoryStream = new MemoryStream();
+        //copiamos la foto a memoria
+        await stream.CopyToAsync(memoryStream);
+
+        //Convertimos a base64
+        FotoBase64 = Convert.ToBase64String(memoryStream.ToArray());
     }
 
     private async void btnguardar_Clicked(object sender, EventArgs e)
@@ -38,9 +89,12 @@ public partial class PageAddPersonas : ContentPage
         {
             Nombre = Nombre.Text,
             Apellido = Apellido.Text,
-            FechaNac = (DateTime)FechaNac.Date,
+            FechaNac = FechaNac.Date ?? DateTime.Now,
             Correo = Correo.Text,
-            Telefono = Telefono.Text
+            Telefono = Telefono.Text,
+            FotoBase64 = string.IsNullOrWhiteSpace(FotoBase64)
+                ? (_personaEditar?.FotoBase64 ?? string.Empty)
+                : FotoBase64
         };
 
         PersonasController controller = new PersonasController();
@@ -57,8 +111,11 @@ public partial class PageAddPersonas : ContentPage
             await DisplayAlert("Información", "Registro Guardado", "OK");
         }
 
-      
-        Nombre.Text = Apellido.Text = Correo.Text = Telefono.Text = string.Empty;
+        Nombre.Text = string.Empty;
+        Apellido.Text = string.Empty;
+        Correo.Text = string.Empty;
+        Telefono.Text = string.Empty;
         FechaNac.Date = DateTime.Now;
+        FotoBase64 = string.Empty;
     }
 }
