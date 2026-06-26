@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Primer_proyecto.Views.PageAddPersonas"
-             Title="PageAddPersonas">
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Primer_proyecto.Views.PageAddPersonas"
+    Title="Persona">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="12">
-            <Entry x:Name="Nombre" Placeholder="Nombre" />
-            <Entry x:Name="Apellido" Placeholder="Apellido" />
-            <DatePicker x:Name="FechaNac" />
-            <Entry x:Name="Correo" Placeholder="Correo" />
-            <Entry x:Name="Telefono" Placeholder="Teléfono" />
 
-            <Button Text="Tomar foto" Clicked="TomarFoto_Clicked" />
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="12">
 
-            <Image Source="{Binding FotoBase64, Converter={StaticResource Base64ToImageSourceConverter}}"
-                   HeightRequest="160"
-                   Aspect="AspectFill" />
+            <Entry
+                Placeholder="Nombre"
+                Text="{Binding Nombre}" />
 
-            <Button x:Name="btnguardar" Clicked="btnguardar_Clicked" />
+            <Entry
+                Placeholder="Apellido"
+                Text="{Binding Apellido}" />
+
+            <DatePicker
+                Date="{Binding FechaNac}" />
+
+            <Entry
+                Placeholder="Correo"
+                Text="{Binding Correo}" />
+
+            <Entry
+                Placeholder="Teléfono"
+                Text="{Binding Telefono}" />
+
+            <Button
+                Text="Tomar foto"
+                Command="{Binding TomarFotoCommand}" />
+
+            <Image
+                HeightRequest="160"
+                Aspect="AspectFill"
+                Source="{Binding FotoBase64, Converter={StaticResource Base64ToImageSourceConverter}}" />
+
+            <Button
+                Text="{Binding TextoBoton}"
+                Command="{Binding GuardarCommand}" />
+
         </VerticalStackLayout>
+
     </ScrollView>
+
 </ContentPage>

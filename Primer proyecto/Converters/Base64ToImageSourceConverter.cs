@@ -22,6 +22,13 @@ namespace Primer_proyecto.Converters
             return null!;
         }
 
+      //hola
+
+
+
+
+
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

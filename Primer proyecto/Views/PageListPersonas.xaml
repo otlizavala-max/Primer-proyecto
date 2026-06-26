@@ -1,50 +1,85 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Primer_proyecto.Views.PageListPersonas"
-             Title="Lista de Personas">
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Primer_proyecto.Views.PageListPersonas"
+    Title="Lista de Personas">
 
     <StackLayout>
-        <ListView x:Name="listaPersonas" ItemsSource="{Binding}">
+
+        <ListView
+            ItemsSource="{Binding Personas}">
+
             <ListView.ItemTemplate>
+
                 <DataTemplate>
+
                     <ViewCell>
-                        <Grid Padding="10"
-                              ColumnSpacing="10"
-                              ColumnDefinitions="56,*,Auto">
 
-                            <Image Grid.Column="0"
-                                   Source="{Binding FotoBase64, Converter={StaticResource Base64ToImageSourceConverter}}"
-                                   WidthRequest="48"
-                                   HeightRequest="48"
-                                   Aspect="AspectFill" />
+                        <Grid
+                            Padding="10"
+                            ColumnSpacing="10"
+                            ColumnDefinitions="56,*,Auto">
 
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="{Binding NombreCompleto}"
-                                       FontSize="16"
-                                       FontAttributes="Bold" />
-                                <Label Text="{Binding Correo}" FontSize="14" />
-                                <Label Text="{Binding Telefono}" FontSize="14" />
+                            <Image
+                                Grid.Column="0"
+                                Source="{Binding FotoBase64, Converter={StaticResource Base64ToImageSourceConverter}}"
+                                WidthRequest="48"
+                                HeightRequest="48"
+                                Aspect="AspectFill"/>
+
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Spacing="2">
+
+                                <Label
+                                    Text="{Binding NombreCompleto}"
+                                    FontSize="16"
+                                    FontAttributes="Bold"/>
+
+                                <Label
+                                    Text="{Binding Correo}"
+                                    FontSize="14"/>
+
+                                <Label
+                                    Text="{Binding Telefono}"
+                                    FontSize="14"/>
+
                             </VerticalStackLayout>
 
-                            <HorizontalStackLayout Grid.Column="2"
-                                                   Spacing="6"
-                                                   VerticalOptions="Center">
-                                <Button Text="Editar"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnEditarClicked" />
-                                <Button Text="Eliminar"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnEliminarClicked" />
+                            <HorizontalStackLayout
+                                Grid.Column="2"
+                                Spacing="6"
+                                VerticalOptions="Center">
+
+                                <Button
+                                    Text="Editar"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
+                                    CommandParameter="{Binding .}"/>
+
+                                <Button
+                                    Text="Eliminar"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarCommand}"
+                                    CommandParameter="{Binding .}"/>
+
                             </HorizontalStackLayout>
+
                         </Grid>
+
                     </ViewCell>
+
                 </DataTemplate>
+
             </ListView.ItemTemplate>
+
         </ListView>
 
-        <Button Text="Agregar Persona"
-                Clicked="OnAgregarClicked"
-                Margin="10" />
+        <Button
+            Text="Agregar Persona"
+            Margin="10"
+            Command="{Binding AgregarCommand}"/>
+
     </StackLayout>
+
 </ContentPage>

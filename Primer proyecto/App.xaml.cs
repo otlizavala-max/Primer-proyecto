@@ -1,16 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace Primer_proyecto;
 
-namespace Primer_proyecto
+public partial class App : Application
 {
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            MainPage = new NavigationPage(new Views.PageListPersonas());
-        }
-
-     
+        MainPage = new NavigationPage(new Views.PageListPersonas());
     }
 }
